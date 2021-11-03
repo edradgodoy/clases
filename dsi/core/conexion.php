@@ -9,7 +9,7 @@ class Conexion {
 	// todas las variables estan en private para una mayor seguridad de los datos 
 	private $tipodb = 'mysql';
 	private $host = 'localhost';
-	private $namedb = 'ejemplo';
+	private $namedb = 'isii';
 	private $userdbname = 'root';
 	private $Pass_sql = '';
 	private $port = 3306;

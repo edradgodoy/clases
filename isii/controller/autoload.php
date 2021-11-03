@@ -5,7 +5,7 @@ class ver_pagina {
 		if ($url === 'login') {
 			include 'views/login.php';
 		} else {
-			$permitidos = array('login','inicio');
+			$permitidos = array('login','inicio','puestos');
 			if (in_array($url, $permitidos)) {
 				include 'views/header.php';
 				include 'views/'.$url.'.php';

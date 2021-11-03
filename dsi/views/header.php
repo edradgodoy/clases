@@ -14,21 +14,28 @@
 
         <!-- MetisMenu CSS -->
         <link href="asset/css/metisMenu.min.css" rel="stylesheet">
-
         <!-- DataTables CSS -->
         <link href="asset/css/dataTables.bootstrap.css" rel="stylesheet">
 
         <!-- DataTables Responsive CSS -->
         <link href="asset/css/dataTables.responsive.css" rel="stylesheet">
 
+        <!-- Timeline CSS -->
+        <link href="asset/css/timeline.css" rel="stylesheet">
+
         <!-- Custom CSS -->
         <link href="asset/css/startmin.css" rel="stylesheet">
 
+        <!-- Morris Charts CSS -->
+        <?php 
+            if ($page === 'Inicio') {
+                echo '<link href="asset/css/morris.css" rel="stylesheet">';
+            }
+        ?>
+        
+
         <!-- Custom Fonts -->
         <link href="asset/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-        <!-- Morris Charts CSS -->
-        <link href="asset/css/morris.css" rel="stylesheet">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,6 +43,31 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+        <!-- jQuery -->
+        <script src="asset/js/jquery.min.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="asset/js/bootstrap.min.js"></script>
+
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="asset/js/metisMenu.min.js"></script>
+        <!-- DataTables JavaScript -->
+        <script src="asset/js/jquery.dataTables.min.js"></script>
+        <script src="asset/js/dataTables.bootstrap.min.js"></script>
+
+        <?php 
+            if ($page === 'Inicio') {
+                echo '<!-- Morris Charts JavaScript -->
+                <script src="asset/js/raphael.min.js"></script>
+                <script src="asset/js/morris.min.js"></script>
+                <script src="asset/js/morris-data.js"></script>';
+            }
+        ?>
+        
+
+        <!-- Custom Theme JavaScript -->
+        <script src="asset/js/startmin.js"></script>
     </head>
     <body>
 
@@ -145,22 +177,10 @@
                                 <!-- /input-group -->
                             </li>
                             <li>
-                                <a href="inicio"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                                <a href="Inicio" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                             </li>
-                            <!-- <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="flot.html">Flot Charts</a>
-                                    </li>
-                                    <li>
-                                        <a href="morris.html">Morris.js Charts</a>
-                                    </li>
-                                </ul> -->
-                                <!-- /.nav-second-level -->
-                            <!-- </li> -->
                             <li>
-                                <a href="puestos"><i class="fa fa-table fa-fw"></i> Puestos</a>
+                                <a href="Puestos"><i class="fa fa-table fa-fw"></i> Puestos</a>
                             </li>
                             <li>
                                 <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
@@ -233,7 +253,27 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- /.sidebar-collapse -->
                 </div>
-                <!-- /.navbar-static-side -->
             </nav>
+
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">
+                                
+                                <?php
+                                    switch ($page) {
+                                        case 'Inicio':
+                                            echo 'Dashboard';
+                                            break;
+                                        default:
+                                            echo $page;
+                                            break;
+                                    }
+                                ?>
+
+                            </h1>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
