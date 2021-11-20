@@ -46,9 +46,47 @@ class Puestos {
 		}
 	}
 
+	public function addPuesto() {
+		try {
+			$puesto = $_POST['nombrePuesto'];
+			$sql = 'INSERT INTO puestos (puesto, fecha_puetso) VALUES (:puesto, now())';
+			$query = $this->conexion->prepare($sql);
+			$query->bindParam(':puesto', $puesto, PDO::PARAM_STR, 45);
+			if ($query->execute()) {
+				return true;
+			} else {
+				return $query;
+			}
+
+		} catch (Exception $e) {
+			return $e->getMessage();
+		}
+	}
+
+	public function editPuesto() {
+		try {
+			$id = $_POST['idPuesto'];
+			$puesto = $_POST['nombrePuesto'];
+			$sql = 'UPDATE puestos SET puesto = :puesto WHERE idpuestos = :id';
+			$query = $this->conexion->prepare($sql);
+			$query->bindParam(':puesto', $puesto, PDO::PARAM_STR, 45);
+			$query->bindParam(':id', $id, PDO::PARAM_INT);
+			if ($query->execute()) {
+				return true;
+			} else {
+				return $query;
+			}
+
+		} catch (Exception $e) {
+			return $e->getMessage();
+		}
+	}
+
 	public function __clone() {
 		trigger_error('La clonación de este objeto no está permitida', E_USER_ERROR);
 	}
 }
+
+
 
 ?>

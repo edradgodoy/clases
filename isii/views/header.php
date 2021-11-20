@@ -27,9 +27,10 @@
         <!-- Custom Fonts -->
         <link href="asset/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+        <?php if ($url == 'inicio'){ ?>
         <!-- Morris Charts CSS -->
         <link href="asset/css/morris.css" rel="stylesheet">
-
+        <?php } ?>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -163,7 +164,7 @@
                                 <a href="puestos"><i class="fa fa-table fa-fw"></i> Puestos</a>
                             </li>
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                                <a href="usuarios"><i class="fa fa-edit fa-fw"></i> Usuarios</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>

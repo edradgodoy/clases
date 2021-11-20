@@ -26,11 +26,40 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                             <h4 class="modal-title" id="titulomodalpuesto"></h4>
                                         </div>
+                                        <?php 
+                                            if (isset($_POST['regPuesto'])) {
+                                                $result = $puestos->addPuesto();
+                                                if ($result === true) {
+                                                    echo '<script>windows.location("puestos");</script>';
+                                                } else {
+                                                    echo '<script>
+                                                        alert("'.$result.'");
+                                                        windows.location("puestos");
+                                                    </script>';
+                                                }
+                                                
+                                            }
+                                            if (isset($_POST['editPuesto'])) {
+                                                $result = $puestos->editPuesto();
+                                                if ($result === true) {
+                                                    echo '<script>windows.location("puestos");</script>';
+                                                } else {
+                                                    echo '<script>
+                                                        alert("'.$result.'");
+                                                        windows.location("puestos");
+                                                    </script>';
+                                                }
+                                                
+                                            }
+                                        ?>
                                         <form class="form-inline" role="form" action="" method="POST" id="formPuesto">
                                             <div class="modal-body">
+                                                <div class="form-group" style="display: none;">
+                                                    <input type="text" class="form-control" id="idPuesto" name="idPuesto" placeholder="Nombre del puesto">
+                                                  </div>
                                                   <div class="form-group">
-                                                    <label for="exampleInputName2">Nombre</label>
-                                                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Nombre del puesto">
+                                                    <label for="nombrePuesto">Nombre</label>
+                                                    <input type="text" class="form-control" id="nombrePuesto" name="nombrePuesto" placeholder="Nombre del puesto">
                                                   </div>
                                             </div>
                                             <div class="modal-footer">

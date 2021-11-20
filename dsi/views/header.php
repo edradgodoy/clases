@@ -64,6 +64,7 @@
                 <script src="asset/js/morris-data.js"></script>';
             }
         ?>
+        <script src="asset/js/function.js"></script>
         
 
         <!-- Custom Theme JavaScript -->

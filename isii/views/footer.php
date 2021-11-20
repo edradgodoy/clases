@@ -14,11 +14,12 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="asset/js/startmin.js"></script>
+        <?php if ($url == 'inicio'){ ?>
         <!-- Morris Charts JavaScript -->
         <script src="asset/js/raphael.min.js"></script>
         <script src="asset/js/morris.min.js"></script>
         <script src="asset/js/morris-data.js"></script>
-
+        <?php } ?>
         <script src="asset/js/function.js"></script>
 
         <!-- Page-Level Demo Scripts - Tables - Use for reference -->
