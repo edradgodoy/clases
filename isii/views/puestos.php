@@ -56,11 +56,18 @@
                                             <div class="modal-body">
                                                 <div class="form-group" style="display: none;">
                                                     <input type="text" class="form-control" id="idPuesto" name="idPuesto" placeholder="Nombre del puesto">
-                                                  </div>
-                                                  <div class="form-group">
-                                                    <label for="nombrePuesto">Nombre</label>
-                                                    <input type="text" class="form-control" id="nombrePuesto" name="nombrePuesto" placeholder="Nombre del puesto">
-                                                  </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="nombrePuesto" class="control-label col-md-3">Nombre:</label>
+                                                    <div class="col-md-9">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control" id="nombrePuesto" name="nombrePuesto" >
+                                                                <span class="help-block"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <input type="submit" name="regPuesto" id="regPuesto" class="btn btn-success btn-sm" value="Registrar">

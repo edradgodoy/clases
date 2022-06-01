@@ -1,13 +1,16 @@
 <?php 
 
 require_once 'core/conexion.php';
+require_once 'methods/globals/valid.class.php';
 
 class Usuarios {
 	private static $instancia;
 	private $conexion;
+	private $validacion;
 	private function __construct() {
 		// conexion a la base de datos
 		$this->conexion = Conexion::singleton();
+		$this->validacion = validacion_campos::singleton_valid();
 	}
 	public static function singleton() {
 		if (!isset(self::$instancia)) {
@@ -65,43 +68,48 @@ class Usuarios {
 	}
 
 	public function addUsuario() {
-		try {
-			$pnombre = $_POST['pnombre'];
-			$snombre = $_POST['snombre'];
-			$papellido = $_POST['papellido'];
-			$sapellido = $_POST['sapellido'];
-			$email = $_POST['email'];
-			$username = $_POST['username'];
+		$valid = self::validacionUsuario();
+		if ($valid === true) {
+			try {
+				$pnombre = $_POST['pnombre'];
+				$snombre = $_POST['snombre'];
+				$papellido = $_POST['papellido'];
+				$sapellido = $_POST['sapellido'];
+				$email = $_POST['email'];
+				$username = $_POST['username'];
 
 
-			$passw = $_POST['password'];
-			// ENCRIPTAR LA CONTASEÑA 
-			$hash = 'ksd[+a]!"394os';
-			$pass = sha1(md5($passw.$hash));
-			$password = crypt($pass, '$6$rounds=9999999$kkjsdjhkufiurkhudfy7hdjue$');
+				$passw = $_POST['password'];
+				// ENCRIPTAR LA CONTASEÑA 
+				$hash = 'ksd[+a]!"394os';
+				$pass = sha1(md5($passw.$hash));
+				$password = crypt($pass, '$6$rounds=9999999$kkjsdjhkufiurkhudfy7hdjue$');
 
 
-			$estcuenta = $_POST['estcuenta'];
-			$idpuesto = $_POST['idpuesto'];
-			$sql = 'INSERT INTO usuarios (fk_puestos, pnombre, snombre, papellido, sapellido, correo, username, password, estado, fecha_usuarios) VALUES (:idpuesto, :pnombre, :snombre, :papellido, :sapellido, :email, :username, :password, :estcuenta, now())';
-			$query = $this->conexion->prepare($sql);
-			$query->bindParam(':idpuesto', $idpuesto, PDO::PARAM_INT);
-			$query->bindParam(':pnombre', $pnombre, PDO::PARAM_STR);
-			$query->bindParam(':snombre', $snombre, PDO::PARAM_STR);
-			$query->bindParam(':papellido', $papellido, PDO::PARAM_STR);
-			$query->bindParam(':sapellido', $sapellido, PDO::PARAM_STR);
-			$query->bindParam(':email', $email, PDO::PARAM_STR);
-			$query->bindParam(':username', $username, PDO::PARAM_STR);
-			$query->bindParam(':password', $password, PDO::PARAM_STR);
-			$query->bindParam(':estcuenta', $estcuenta, PDO::PARAM_STR);
-			if ($query->execute()) {
-				return true;
-			} else {
-				return $query;
+				$estcuenta = $_POST['estcuenta'];
+				$idpuesto = $_POST['idpuesto'];
+				$sql = 'INSERT INTO usuarios (fk_puestos, pnombre, snombre, papellido, sapellido, correo, username, password, estado, fecha_usuarios) VALUES (:idpuesto, :pnombre, :snombre, :papellido, :sapellido, :email, :username, :password, :estcuenta, now())';
+				$query = $this->conexion->prepare($sql);
+				$query->bindParam(':idpuesto', $idpuesto, PDO::PARAM_INT);
+				$query->bindParam(':pnombre', $pnombre, PDO::PARAM_STR);
+				$query->bindParam(':snombre', $snombre, PDO::PARAM_STR);
+				$query->bindParam(':papellido', $papellido, PDO::PARAM_STR);
+				$query->bindParam(':sapellido', $sapellido, PDO::PARAM_STR);
+				$query->bindParam(':email', $email, PDO::PARAM_STR);
+				$query->bindParam(':username', $username, PDO::PARAM_STR);
+				$query->bindParam(':password', $password, PDO::PARAM_STR);
+				$query->bindParam(':estcuenta', $estcuenta, PDO::PARAM_STR);
+				if ($query->execute()) {
+					return true;
+				} else {
+					return $query;
+				}
+
+			} catch (Exception $e) {
+				return $e->getMessage();
 			}
-
-		} catch (Exception $e) {
-			return $e->getMessage();
+		} else {
+			return $valid;
 		}
 	}
 
@@ -121,6 +129,34 @@ class Usuarios {
 
 		} catch (Exception $e) {
 			return $e->getMessage();
+		}
+	}
+
+	public function validacionUsuario() {
+		$pnombre = $_POST['pnombre'];
+		$snombre = $_POST['snombre'];
+		$papellido = $_POST['papellido'];
+		$sapellido = $_POST['sapellido'];
+		$v_pnombre = $this->validacion->caracteres1($pnombre,3,45,'del primer nombre');
+		if ($v_pnombre === true) {
+			$v_snombre = $this->validacion->caracteres1($snombre,3,45,'del segundo nombre');
+			if ($v_snombre === true) {
+				$v_papellido = $this->validacion->caracteres1($papellido,3,45,'del primer apellido');
+				if ($v_papellido === true) {
+					$v_sapellido = $this->validacion->caracteres1($sapellido,3,45,'del segundo apellido');
+					if ($v_sapellido === true) {
+						return true;
+					} else {
+						return $v_sapellido;
+					}
+				} else {
+					return $v_papellido;
+				}
+			} else {
+				return $v_snombre;
+			}
+		} else {
+			return $v_pnombre;
 		}
 	}
 

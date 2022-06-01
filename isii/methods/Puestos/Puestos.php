@@ -1,13 +1,16 @@
 <?php 
 
 require_once 'core/conexion.php';
+require_once 'methods/globals/valid.class.php';
 
 class Puestos {
 	private static $instancia;
 	private $conexion;
+	private $validacion;
 	private function __construct() {
 		// conexion a la base de datos
 		$this->conexion = Conexion::singleton();
+		$this->validacion = validacion_campos::singleton_valid();
 	}
 	public static function singleton() {
 		if (!isset(self::$instancia)) {
@@ -35,7 +38,7 @@ class Puestos {
 
 				$datos .= '<tr>
 					<td>'.$item.'</td>
-					<td>'.$result['puesto'].'</td>
+					<td>'.htmlspecialchars($result['puesto']).'</td>
 					<td>'.$btnEliminar.' '.$btnEditar.'</td>
 				</tr>';
 				$item++;
@@ -47,19 +50,24 @@ class Puestos {
 	}
 
 	public function addPuesto() {
-		try {
-			$puesto = $_POST['nombrePuesto'];
-			$sql = 'INSERT INTO puestos (puesto, fecha_puetso) VALUES (:puesto, now())';
-			$query = $this->conexion->prepare($sql);
-			$query->bindParam(':puesto', $puesto, PDO::PARAM_STR, 45);
-			if ($query->execute()) {
-				return true;
-			} else {
-				return $query;
-			}
+		$valid = self::valid();
+		if ($valid === true) {
+			try {
+				$puesto = $_POST['nombrePuesto'];
+				$sql = 'INSERT INTO puestos (puesto, fecha_puetso) VALUES (:puesto, now())';
+				$query = $this->conexion->prepare($sql);
+				$query->bindParam(':puesto', $puesto, PDO::PARAM_STR, 45);
+				if ($query->execute()) {
+					return true;
+				} else {
+					return $query;
+				}
 
-		} catch (Exception $e) {
-			return $e->getMessage();
+			} catch (Exception $e) {
+				return $e->getMessage();
+			}
+		} else {
+			return $valid;
 		}
 	}
 
@@ -79,6 +87,17 @@ class Puestos {
 
 		} catch (Exception $e) {
 			return $e->getMessage();
+		}
+	}
+
+	// validaciones para agregar 
+	function valid(){
+		$puesto = $_POST['nombrePuesto'];
+		$v_puesto = $this->validacion->caracteres1($puesto, 3, 45, 'del puesto');
+		if ($v_puesto === true) {
+			return true;
+		} else {
+			return $v_puesto;
 		}
 	}
 

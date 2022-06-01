@@ -94,3 +94,21 @@ function editUsuarios(dato) {
 	});
 	return false;
 }
+
+function deleteUsuarios(id){
+	var url = 'methods/Usuarios/delete.php';
+	var pregunta = confirm('¿Esta seguro de querer eliminar este usuario?');
+	if(pregunta==true){
+		$.ajax({
+		type:'POST',
+		url:url,
+		data:'id='+id,
+		success: function(registro){
+			window.location.href="usuarios";
+		}
+	});
+	return false;
+	}else{
+		return false;
+	}
+}

@@ -34,6 +34,8 @@ class TestLogin {
 				$estado = $result['estado'];
 				// traemos el nombre del usuario 
 				$nombre = $result['pnombre'].' '.$result['snombre'].' '.$result['papellido'].' '.$result['sapellido'];
+				// id del usuario
+				$id = $result['idusuarios'];
 			}
 			// Encryptar la contrasela proporcionada
 			$hash = 'ksd[+a]!"394os';
@@ -42,7 +44,10 @@ class TestLogin {
 			$crypt = crypt($dos, '$6$rounds=9999999$kkjsdjhkufiurkhudfy7hdjue$');
 			if ($crypt === $pass) {
 				if ($estado === 'Est_0001') {
+
 					$_SESSION['username'] = $nombre;
+					// realizar el registro en la bitacora 
+					self::bitacora($id);
 					return true;
 				} else {
 					return 'La cuenta esta bloqueda temporalmente.';
@@ -53,6 +58,18 @@ class TestLogin {
 		} else {
 			return 'No existe un usuario registrado con ese nombre.';
 		}
+	}
+	public function bitacora($id) {
+		$utc = date('U');
+		$ip = $_SERVER['REMOTE_ADDR'];
+		$navegador = $_SERVER['HTTP_USER_AGENT'];
+		$sql = 'INSERT INTO bitacora (fk_usuarios, utc, ip, navegador, fecha_bitacora) VALUES (:id, :utc, :ip, :navegador, now())';
+		$query = $this->conexion->prepare($sql);
+		$query->bindParam(':id', $id, PDO::PARAM_INT);
+		$query->bindParam(':utc', $utc, PDO::PARAM_INT);
+		$query->bindParam(':ip', $ip, PDO::PARAM_STR, 20);
+		$query->bindParam(':navegador', $navegador, PDO::PARAM_STR, 45);
+		$query->execute();
 	}
 	public function __clone() {
 		trigger_error('La clonación de este objeto no está permitida', E_USER_ERROR);

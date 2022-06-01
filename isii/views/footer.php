@@ -20,7 +20,11 @@
         <script src="asset/js/morris.min.js"></script>
         <script src="asset/js/morris-data.js"></script>
         <?php } ?>
+
         <script src="asset/js/function.js"></script>
+        <script src="asset/js/valid.js"></script>
+        <script src="asset/js/sweetalert.min.js"></script>
+
 
         <!-- Page-Level Demo Scripts - Tables - Use for reference -->
         <script>
